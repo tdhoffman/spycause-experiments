@@ -23,8 +23,8 @@ from networkx import from_numpy_array, empty_graph
 
 # Get rundown on the path
 import sys
-sys.path.insert(0, '/home/tdhoffman/Documents/rundown')
-import rundown as rd
+sys.path.insert(0, '/home/tdhoffman/Documents/spycause')
+import spycause as spy
 
 ## Set up hyperparameters
 Nlat        = 30
@@ -98,7 +98,7 @@ def chunk_sim_run(params):
     else:
         intval = w_I[w_I_data_form]
 
-    sim = rd.CARSimulator(Nlat, D, sp_confound=w_C[w_C_data_form], interference=intval)
+    sim = spy.CARSimulator(Nlat, D, sp_confound=w_C[w_C_data_form], interference=intval)
     X, Y, Z = sim.simulate(treat=treat, z_conf=z_conf, y_conf=y_conf, interf=interf,
                            x_sd=x_sd, y_sd=y_sd, x_sp=x_sp, ucar_str=ucar_str,
                            vcar_str=vcar_str, ucar_sd=ucar_sd, vcar_sd=vcar_sd,
@@ -107,10 +107,10 @@ def chunk_sim_run(params):
     if w_I_model_form == "none":
         Zint = Z
     else:
-        intadj = rd.InterferenceAdj(w=w_I[w_I_model_form])
+        intadj = spy.InterferenceAdj(w=w_I[w_I_model_form])
         Zint = intadj.transform(Z)
 
-    model = rd.BayesOLS(fit_intercept=False)
+    model = spy.BayesOLS(fit_intercept=False)
     model = model.fit(X, Y, Zint, nsamples=nsamples, nwarmup=nwarmup, save_warmup=save_warmup,
                       nchains=nchains, delta=delta, max_depth=max_depth, simulation=True)
     model.diagnostics()
