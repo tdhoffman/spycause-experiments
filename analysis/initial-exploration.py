@@ -67,5 +67,22 @@ matched_data_outs["w_c_data_form"] = matched_data_outs["w_c_data_form"].map(rev_
 matched_data_outs["w_c_model_form"] = matched_data_outs["w_c_model_form"].map(rev_mapper)
 
 data["bias"] = data["tau_med"] - data["treat"]
+data["bias_ratio"] = np.abs(data["bias"])/1.5
+data["log_var"] = np.log(data["tau_var"])
 sns.histplot(data["bias"])
+plt.show()
+
+
+plt.rc('font', size=16)
+_, ax = plt.subplots(ncols=2, sharey=True)
+sns.boxplot(data=[matched_data["bias_ratio"], unmatched_data["bias_ratio"]], orient="h", ax=ax[0])
+ax[0].set_yticklabels(labels=["Matched", "Unmatched"])
+ax[0].set_xlabel("Bias:effect size")
+ax[0].set_title("Comparison of bias:effect size ratio")
+
+sns.boxplot(data=[matched_data["log_var"], unmatched_data["log_var"]], orient="h", ax=ax[1])
+ax[1].set_yticklabels(labels=["Matched", "Unmatched"])
+ax[1].set_xlabel("Log variance")
+ax[1].set_title("Comparison of log variance")
+plt.tight_layout()
 plt.show()
