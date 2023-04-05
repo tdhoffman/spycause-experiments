@@ -1,3 +1,6 @@
+*Note:* This document contains our initial experiment plan, which proved to be too computationally intensive. 
+Our final experimental design is detailed in the paper.
+
 ## DGP parameters
 
 Let $N$ be the number of spatial units (one observation per unit) and $D$ be the number of covariates.
